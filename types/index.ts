@@ -21,5 +21,6 @@ export interface Biobank {
   }
   
   export interface SearchResult extends Specimen {
+    biobank: string;
     similarity: number;
   }
