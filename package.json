@@ -17,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
+    "react-node": "^1.0.2",
     "recharts": "^2.15.1",
     "wagmi": "^2.14.12",
     "web3modal": "^1.9.12",

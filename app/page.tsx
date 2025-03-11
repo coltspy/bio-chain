@@ -1,101 +1,47 @@
-'use client';
+// app/page.tsx
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { useState } from 'react';
-import StatCard from './components/StatCard';
-import ActivityItem from './components/ActivityItem';
-
-export default function Dashboard() {
-  // Mock data
-  const [stats] = useState([
-    { title: 'Active Samples', value: '3', icon: '🧪', color: 'bg-blue-500' },
-    { title: 'Research Projects', value: '2', icon: '🔬', color: 'bg-purple-500' },
-    { title: 'Available Balance', value: '$240', icon: '💰', color: 'bg-green-500' },
-  ]);
-
-  const [activities] = useState([
-    { 
-      id: 1, 
-      type: 'sample-used', 
-      title: 'Sample Used', 
-      description: 'Your blood sample (SP12345) was used in research project RES789',
-      date: '2 days ago',
-      icon: '🧪'
-    },
-    { 
-      id: 2, 
-      type: 'benefit-received', 
-      title: 'Benefit Received', 
-      description: 'You received $120 from research project RES456',
-      date: '1 week ago',
-      icon: '💰'
-    },
-    { 
-      id: 3, 
-      type: 'consent-updated', 
-      title: 'Consent Updated', 
-      description: 'You updated consent preferences for sample SP12346',
-      date: '2 weeks ago',
-      icon: '📝'
-    },
-  ]);
-
+export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Monitor your samples, track research, and manage benefits
-        </p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-indigo-600 mb-2">AminoChain</h1>
+        <p className="text-xl text-gray-600">Connecting biosamples to research, with transparency and trust</p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
-        {stats.map((stat, index) => (
-          <StatCard 
-            key={index}
-            title={stat.title}
-            value={stat.value}
-            icon={stat.icon}
-            color={stat.color}
-          />
-        ))}
-      </div>
-
-      {/* Recent Activity */}
-      <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Recent Activity</h2>
-        </div>
-        <div className="divide-y divide-gray-200">
-          {activities.map((activity) => (
-            <ActivityItem 
-              key={activity.id}
-              title={activity.title}
-              description={activity.description}
-              date={activity.date}
-              icon={activity.icon}
-              type={activity.type}
-            />
-          ))}
-        </div>
-        <div className="p-4 bg-gray-50 border-t border-gray-200">
-          <button className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
-            View all activity →
-          </button>
-        </div>
-      </div>
-
-      {/* Sample Usage */}
-      <div className="mt-8 bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Sample Usage Overview</h2>
-        </div>
-        <div className="p-6">
-          <div className="h-64 flex items-center justify-center bg-gray-100 rounded-lg">
-            {/* This would be replaced with a real chart */}
-            <p className="text-gray-500">Sample usage chart would go here</p>
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full px-4">
+        {/* Contributor Portal Card */}
+        <Link 
+          href="/contributor" 
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 flex flex-col items-center"
+        >
+          <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
           </div>
-        </div>
+          <h2 className="text-2xl font-semibold mb-2">Sample Provider Portal</h2>
+          <p className="text-gray-600 text-center">Track your biological samples, manage consent, and receive benefits from research</p>
+        </Link>
+
+        {/* Researcher Portal Card */}
+        <Link 
+          href="/researcher" 
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 flex flex-col items-center"
+        >
+          <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+            <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-semibold mb-2">Researcher Portal</h2>
+          <p className="text-gray-600 text-center">Discover biospecimens, request samples, and manage research projects</p>
+        </Link>
+      </div>
+
+      <div className="mt-12 text-center text-gray-500">
+        <p>Demo version of AminoChain Specimen Center</p>
       </div>
     </div>
   );
