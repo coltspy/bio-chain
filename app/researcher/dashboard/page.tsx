@@ -14,7 +14,6 @@ export default function ResearcherDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   
   useEffect(() => {
-    // Simulate loading data
     const timer = setTimeout(() => {
       setIsLoading(false);
       setRecentActivity([
@@ -28,7 +27,6 @@ export default function ResearcherDashboard() {
     return () => clearTimeout(timer);
   }, []);
   
-  // Mock data
   const stats = [
     { title: 'Total Specimens', value: '5,284', change: '+124', icon: '🧪' },
     { title: 'Available Biobanks', value: '10', change: '+2', icon: '🏥' },
@@ -94,7 +92,6 @@ export default function ResearcherDashboard() {
     { id: 4, query: 'Brain tissue, Alzheimer\'s patients over 70', results: 23, date: '1 week ago' },
   ];
   
-  // Colors for charts
   const COLORS = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c', '#d0ed57'];
 
   return (
@@ -119,7 +116,6 @@ export default function ResearcherDashboard() {
         </div>
       </div>
       
-      {/* Dashboard Tabs */}
       <div className="bg-white rounded-lg shadow mb-6 overflow-hidden">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
@@ -156,7 +152,6 @@ export default function ResearcherDashboard() {
             <>
               {activeTab === 'overview' && (
                 <div>
-                  {/* Stats Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {stats.map((stat, index) => (
                       <div key={index} className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
@@ -176,9 +171,7 @@ export default function ResearcherDashboard() {
                     ))}
                   </div>
                   
-                  {/* Charts Row */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Sample Distribution */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Specimen Distribution</h3>
                       <div className="h-64">
@@ -204,7 +197,6 @@ export default function ResearcherDashboard() {
                       </div>
                     </div>
                     
-                    {/* Monthly Activity */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Monthly Activity</h3>
                       <div className="h-64">
@@ -227,9 +219,7 @@ export default function ResearcherDashboard() {
                     </div>
                   </div>
                   
-                  {/* Quick Links & Recent Searches */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Quick Links */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Quick Actions</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -261,7 +251,6 @@ export default function ResearcherDashboard() {
                       </div>
                     </div>
                     
-                    {/* Recent Searches */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Recent Searches</h3>
                       <div className="divide-y divide-gray-200">
@@ -283,7 +272,6 @@ export default function ResearcherDashboard() {
                     </div>
                   </div>
                   
-                  {/* Biobanks Section */}
                   <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-base font-medium text-gray-900">Connected Biobanks</h3>
@@ -389,9 +377,7 @@ export default function ResearcherDashboard() {
                     </div>
                   </div>
                   
-                  {/* Analytics Charts */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Activity Trends */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Activity Trends</h3>
                       <div className="h-64">
@@ -413,7 +399,6 @@ export default function ResearcherDashboard() {
                       </div>
                     </div>
                     
-                    {/* Specimen Types */}
                     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
                       <h3 className="text-base font-medium text-gray-900 mb-4">Specimen Types Requested</h3>
                       <div className="h-64">

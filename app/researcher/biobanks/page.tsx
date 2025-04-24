@@ -24,7 +24,6 @@ export default function BiobankDirectoryPage() {
   const [activeFilter, setActiveFilter] = useState('all');
   
   useEffect(() => {
-    // Simulate loading data
     const timer = setTimeout(() => {
       const mockBiobanks: Biobank[] = [
         {
@@ -142,12 +141,10 @@ export default function BiobankDirectoryPage() {
     return () => clearTimeout(timer);
   }, []);
   
-  // Filter biobanks based on search query and active filter
   useEffect(() => {
     if (biobanks.length) {
       let filtered = [...biobanks];
       
-      // Apply search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         filtered = filtered.filter(biobank => 
@@ -161,7 +158,6 @@ export default function BiobankDirectoryPage() {
         );
       }
       
-      // Apply category filter
       if (activeFilter !== 'all') {
         if (activeFilter === 'featured') {
           filtered = filtered.filter(biobank => biobank.featured);
@@ -198,12 +194,10 @@ export default function BiobankDirectoryPage() {
     }
   }, [searchQuery, activeFilter, biobanks]);
   
-  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
   
-  // Handle filter selection
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
   };
@@ -227,7 +221,6 @@ export default function BiobankDirectoryPage() {
         </div>
       </div>
       
-      {/* Search and Filters */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div className="relative w-full md:w-96">
@@ -310,12 +303,10 @@ export default function BiobankDirectoryPage() {
         </div>
       </div>
       
-      {/* Results count */}
       <div className="mb-4 text-sm text-gray-500">
         {filteredBiobanks.length} biobanks found
       </div>
       
-      {/* Loading state */}
       {isLoading ? (
         <div className="flex justify-center py-12">
           <div className="relative">

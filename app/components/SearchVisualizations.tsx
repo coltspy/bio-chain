@@ -17,21 +17,18 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
   
   useEffect(() => {
     if (searchResults.length > 0) {
-      // Process diagnosis data
       const diagnosisCounts: Record<string, number> = {};
       searchResults.forEach(specimen => {
         diagnosisCounts[specimen.diagnosis] = (diagnosisCounts[specimen.diagnosis] || 0) + 1;
       });
       
-      // Convert to array format for chart
       const diagnosisArray = Object.entries(diagnosisCounts)
         .map(([name, value]) => ({ name, value }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 5); // Top 5 diagnoses
+        .slice(0, 5); 
       
       setDiagnosisData(diagnosisArray);
       
-      // Process age data
       const ageGroups = {
         '0-18': 0,
         '19-30': 0,
@@ -51,32 +48,27 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
         else ageGroups['76+']++;
       });
       
-      // Convert to array format for chart
       const ageArray = Object.entries(ageGroups)
         .map(([name, value]) => ({ name, value }));
       
       setAgeData(ageArray);
       
-      // Process type data
       const typeCounts: Record<string, number> = {};
       searchResults.forEach(specimen => {
         typeCounts[specimen.type] = (typeCounts[specimen.type] || 0) + 1;
       });
       
-      // Convert to array format for chart
       const typeArray = Object.entries(typeCounts)
         .map(([name, value]) => ({ name, value }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 5); // Top 5 types
+        .slice(0, 5); 
       
       setTypeData(typeArray);
     }
   }, [searchResults]);
   
-  // Colors for charts
   const COLORS = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c', '#d0ed57'];
   
-  // If no data, show placeholder
   if (searchResults.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -87,7 +79,6 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* Diagnoses Distribution */}
       <div className="bg-white p-4 rounded-lg border border-gray-200">
         <h3 className="text-sm font-medium text-gray-700 mb-4">Diagnosis Distribution</h3>
         {diagnosisData.length > 0 ? (
@@ -117,7 +108,6 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
         )}
       </div>
       
-      {/* Age Distribution */}
       <div className="bg-white p-4 rounded-lg border border-gray-200">
         <h3 className="text-sm font-medium text-gray-700 mb-4">Age Distribution</h3>
         {ageData.length > 0 ? (
@@ -140,7 +130,6 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
         )}
       </div>
       
-      {/* Sample Type Distribution */}
       <div className="bg-white p-4 rounded-lg border border-gray-200">
         <h3 className="text-sm font-medium text-gray-700 mb-4">Sample Type Distribution</h3>
         {typeData.length > 0 ? (
@@ -164,16 +153,12 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
         )}
       </div>
       
-      {/* Biobank Network Map */}
       <div className="bg-white p-4 rounded-lg border border-gray-200">
         <h3 className="text-sm font-medium text-gray-700 mb-4">Biobank Network Map</h3>
         <div className="h-48 relative">
-          {/* Simple USA map with biobank markers */}
           <div className="w-full h-full bg-gray-100 rounded-lg relative overflow-hidden">
-            {/* USA outline */}
             <div className="absolute inset-5 border-2 border-gray-300 rounded-lg"></div>
             
-            {/* Biobank locations */}
             <div className="absolute h-3 w-3 rounded-full bg-blue-500 pulse-blue" style={{ top: '30%', left: '25%' }}>
               <span className="absolute top-4 left-2 text-xs font-medium text-gray-700">Mayo Clinic</span>
             </div>
@@ -187,7 +172,6 @@ export default function SearchVisualizations({ searchResults }: VisualizationPro
               <span className="absolute top-4 left-2 text-xs font-medium text-gray-700">Harvard</span>
             </div>
             
-            {/* Legend */}
             <div className="absolute bottom-2 right-2 text-xs bg-white bg-opacity-75 p-1 rounded">
               <div className="flex items-center space-x-1">
                 <div className="h-2 w-2 bg-blue-500 rounded-full"></div>

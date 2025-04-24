@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-// Types
 type SampleType = 'Tumor Tissue' | 'Normal Tissue' | 'Blood' | 'Plasma/Serum';
 type Project = {
   id: string;
@@ -21,12 +20,10 @@ const ResearcherDashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Simulate API loading
     const timer = setTimeout(() => setIsLoading(false), 600);
     return () => clearTimeout(timer);
   }, []);
 
-  // Sample data
   const sampleDistribution = [
     { type: 'Tumor Tissue', count: 1248, percent: 23.6, change: '+5.2%' },
     { type: 'Normal Tissue', count: 945, percent: 17.9, change: '+2.8%' },
@@ -67,7 +64,6 @@ const ResearcherDashboard = () => {
         <p className="text-sm text-gray-500">Global biospecimen discovery platform</p>
       </header>
 
-      {/* Demo Banner */}
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
         <div className="flex items-start">
           <div className="flex-shrink-0 pt-0.5">
@@ -83,7 +79,6 @@ const ResearcherDashboard = () => {
         </div>
       </div>
 
-      {/* Dashboard Tabs */}
       <div className="bg-white rounded-lg shadow mb-6 overflow-hidden">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
@@ -116,7 +111,6 @@ const ResearcherDashboard = () => {
             <>
               {activeTab === 'overview' && (
                 <div>
-                  {/* Stats Overview */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <StatCard
                       title="Total Specimens"
@@ -135,7 +129,6 @@ const ResearcherDashboard = () => {
                     />
                   </div>
 
-                  {/* Sample Distribution */}
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Specimen Distribution</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     {sampleDistribution.map(item => (
@@ -148,7 +141,6 @@ const ResearcherDashboard = () => {
               {activeTab === 'demographics' && (
                 <div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    {/* Age Distribution */}
                     <div className="bg-white p-4 rounded-lg border border-gray-200">
                       <h4 className="text-sm font-medium text-gray-700 mb-4">Age Distribution</h4>
                       <div className="h-52 flex items-end space-x-2">
@@ -168,7 +160,6 @@ const ResearcherDashboard = () => {
                       </div>
                     </div>
                     
-                    {/* Gender Distribution */}
                     <div className="bg-white p-4 rounded-lg border border-gray-200">
                       <h4 className="text-sm font-medium text-gray-700 mb-4">Gender Distribution</h4>
                       <div className="flex h-52">
@@ -204,7 +195,6 @@ const ResearcherDashboard = () => {
         </div>
       </div>
 
-      {/* Search Section */}
       <div className="bg-white rounded-lg shadow mb-6 p-6">
         <h2 className="text-lg font-medium text-gray-900 mb-4">Sample Search</h2>
         
@@ -241,7 +231,6 @@ const ResearcherDashboard = () => {
         </div>
       </div>
 
-      {/* Projects Section */}
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-lg font-medium text-gray-900">Your Research Projects</h2>
@@ -265,7 +254,6 @@ const ResearcherDashboard = () => {
   );
 };
 
-// UI Components
 const StatCard = ({ title, value, subtext }: { title: string; value: string; subtext: string }) => (
   <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:shadow-md transition-all">
     <h3 className="text-sm font-medium text-gray-500">{title}</h3>

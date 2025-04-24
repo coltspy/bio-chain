@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import debounce from 'lodash/debounce';
 
-// Type definitions for specimens
 type SearchResult = {
   id: string;
   external_id: string;
@@ -39,7 +38,6 @@ export default function SpecimenSearch() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams?.get('q') || '';
   
-  // Core states
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -52,7 +50,6 @@ export default function SpecimenSearch() {
   const [semanticConditions, setSemanticConditions] = useState<any>(null);
   const [sortOption, setSortOption] = useState('relevance');
   
-  // Filter states
   const [filters, setFilters] = useState<FilterState>({
     sampleTypes: [],
     ageRanges: [],
@@ -64,7 +61,6 @@ export default function SpecimenSearch() {
     availability: true
   });
   
-  // Filter options derived from results
   const [filterOptions, setFilterOptions] = useState({
     sampleTypes: [] as string[],
     diagnoses: [] as string[],
@@ -72,7 +68,6 @@ export default function SpecimenSearch() {
     ethnicities: [] as string[]
   });
   
-  // Stats
   const [stats, setStats] = useState({
     totalSpecimens: 0,
     matchedSpecimens: 0,
@@ -80,7 +75,6 @@ export default function SpecimenSearch() {
     averageAge: 0
   });
   
-  // Pagination
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -88,7 +82,6 @@ export default function SpecimenSearch() {
     totalResults: 0
   });
 
-  // Debounced search function
   const debouncedSearch = useCallback(
     debounce((query: string) => {
       performSearch(query);
@@ -96,7 +89,6 @@ export default function SpecimenSearch() {
     []
   );
 
-  // Search function that connects to Firebase via API route
   const performSearch = async (query: string = searchQuery) => {
     if (!query.trim() && Object.values(filters).every(f => 
       Array.isArray(f) ? f.length === 0 : f === null
@@ -104,7 +96,10 @@ export default function SpecimenSearch() {
     
     setIsLoading(true);
     setError(null);
-    
+    console.log('Firebase config:', {
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ? 'set' : 'missing',
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ? 'set' : 'missing',
+    });
     try {
       const response = await fetch('/api/search', {
         method: 'POST',
@@ -135,7 +130,6 @@ export default function SpecimenSearch() {
         setSemanticConditions(data.meta.semanticConditions);
       }
       
-      // Extract filter options from results
       if (data.results && data.results.length > 0) {
         extractFilterOptions(data.results);
         calculateStats(data.results);
@@ -150,8 +144,7 @@ export default function SpecimenSearch() {
     }
   };
   
-  // Extract unique values for filter options
-  const extractFilterOptions = (results: SearchResult[]) => {
+    const extractFilterOptions = (results: SearchResult[]) => {
     const sampleTypes = [...new Set(results.map(item => item.type))];
     const diagnoses = [...new Set(results.map(item => item.diagnosis))];
     const biobanks = [...new Set(results.map(item => item.biobank))];
@@ -165,8 +158,7 @@ export default function SpecimenSearch() {
     });
   };
   
-  // Calculate statistics based on the results
-  const calculateStats = (results: SearchResult[]) => {
+    const calculateStats = (results: SearchResult[]) => {
     const totalSpecimens = results.length;
     const biobanksRepresented = new Set(results.map(item => item.biobank_id)).size;
     const totalAge = results.reduce((sum, item) => sum + item.age_at_collection, 0);
@@ -180,26 +172,22 @@ export default function SpecimenSearch() {
     });
   };
 
-  // Run search on initial load if query exists
   useEffect(() => {
     if (initialQuery) {
       performSearch(initialQuery);
     }
   }, [initialQuery]);
   
-  // Handle search query changes
   useEffect(() => {
     if (searchQuery.trim()) {
       debouncedSearch(searchQuery);
     }
   }, [searchQuery, debouncedSearch]);
   
-  // Apply filters and pagination
   useEffect(() => {
     if (searchResults.length > 0) {
       let results = [...searchResults];
       
-      // Apply client-side filters
       if (filters.sampleTypes.length > 0) {
         results = results.filter(item => 
           filters.sampleTypes.some(type => item.type.includes(type))
@@ -254,7 +242,6 @@ export default function SpecimenSearch() {
         results = results.filter(item => item.available === filters.availability);
       }
       
-      // Apply sorting
       if (sortOption === 'age_asc') {
         results.sort((a, b) => a.age_at_collection - b.age_at_collection);
       } else if (sortOption === 'age_desc') {
@@ -269,7 +256,6 @@ export default function SpecimenSearch() {
         matchedSpecimens: results.length
       }));
       
-      // Update pagination
       setPagination(prev => ({
         ...prev,
         totalResults: results.length,
@@ -279,14 +265,12 @@ export default function SpecimenSearch() {
     }
   }, [filters, searchResults, sortOption, pagination.pageSize]);
   
-  // Get paginated results
   const getPaginatedResults = () => {
     const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
     const endIndex = startIndex + pagination.pageSize;
     return filteredResults.slice(startIndex, endIndex);
   };
 
-  // Toggle specimen selection
   const toggleSelection = (id: string) => {
     setSelectedSpecimens(prev => 
       prev.includes(id) 
@@ -295,7 +279,6 @@ export default function SpecimenSearch() {
     );
   };
   
-  // Toggle filter
   const toggleFilter = (category: keyof FilterState, value: string) => {
     setFilters(prev => {
       const updated = {...prev};
@@ -311,7 +294,6 @@ export default function SpecimenSearch() {
     });
   };
   
-  // Set availability filter
   const setAvailabilityFilter = (value: boolean | null) => {
     setFilters(prev => ({
       ...prev,
@@ -319,7 +301,6 @@ export default function SpecimenSearch() {
     }));
   };
   
-  // Clear all filters
   const clearFilters = () => {
     setFilters({
       sampleTypes: [],
@@ -333,12 +314,10 @@ export default function SpecimenSearch() {
     });
   };
 
-  // Handle search form submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     performSearch();
     
-    // Update URL
     const params = new URLSearchParams(searchParams.toString());
     if (searchQuery) {
       params.set('q', searchQuery);
@@ -348,7 +327,6 @@ export default function SpecimenSearch() {
     router.push(`/researcher/search?${params.toString()}`);
   };
   
-  // Handle pagination
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= pagination.totalPages) {
       setPagination(prev => ({
@@ -356,12 +334,10 @@ export default function SpecimenSearch() {
         currentPage: page
       }));
       
-      // Scroll to top of results
       document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
   
-  // Calculate active filter count
   const activeFilterCount = 
     filters.sampleTypes.length +
     filters.ageRanges.length +
@@ -372,7 +348,6 @@ export default function SpecimenSearch() {
     filters.biobanks.length +
     (filters.availability !== null ? 1 : 0);
   
-  // Get background color based on specimen type
   const getTypeColor = (type: string): string => {
     if (type.includes('Tumor')) return 'bg-red-100';
     if (type.includes('Normal')) return 'bg-green-100';
@@ -399,7 +374,6 @@ export default function SpecimenSearch() {
         </p>
       </header>
 
-      {/* Natural Language Search Form */}
       <form onSubmit={handleSearch} className="mb-6">
         <div className="flex">
           <div className="relative flex-grow">
@@ -443,7 +417,6 @@ export default function SpecimenSearch() {
         </div>
       </form>
       
-      {/* Semantic Search Interpretation Panel */}
       {semanticConditions && Object.keys(semanticConditions).length > 0 && (
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
           <div className="flex items-start">
@@ -481,7 +454,6 @@ export default function SpecimenSearch() {
         </div>
       )}
       
-      {/* Error message */}
       {error && (
         <div className="bg-red-50 p-4 rounded-md mb-4">
           <div className="flex">
@@ -498,7 +470,6 @@ export default function SpecimenSearch() {
         </div>
       )}
       
-      {/* Filter Panel */}
       {showFilters && (
         <div className="bg-white rounded-lg shadow mb-6 p-4 animate-fadeIn">
           <div className="flex justify-between items-center mb-4">
@@ -512,7 +483,6 @@ export default function SpecimenSearch() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Sample Types */}
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2">Sample Type</h4>
               <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -533,7 +503,6 @@ export default function SpecimenSearch() {
               </div>
             </div>
             
-            {/* Demographics */}
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2">Demographics</h4>
               <div className="space-y-4">
@@ -607,7 +576,6 @@ export default function SpecimenSearch() {
               </div>
             </div>
             
-            {/* Clinical */}
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2">Clinical</h4>
               <div className="space-y-4">
@@ -709,7 +677,6 @@ export default function SpecimenSearch() {
         </div>
       )}
       
-      {/* Search Results Stats */}
       {searchResults.length > 0 && (
         <div className="bg-white rounded-lg shadow mb-6 p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -741,9 +708,7 @@ export default function SpecimenSearch() {
         </div>
       )}
       
-      {/* Results Section */}
       <div id="results-section" className="bg-white rounded-lg shadow">
-        {/* Loading state */}
         {isLoading ? (
           <div className="flex flex-col justify-center items-center py-12">
             <div className="relative">
@@ -754,7 +719,6 @@ export default function SpecimenSearch() {
           </div>
         ) : filteredResults.length > 0 ? (
           <>
-            {/* Results Tab Navigation */}
             <div className="border-b border-gray-200">
               <nav className="flex -mb-px">
                 <button 
@@ -804,7 +768,6 @@ export default function SpecimenSearch() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {getPaginatedResults().map((specimen) => (
                   <div key={specimen.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-                    {/* Card Header */}
                     <div className={`p-4 ${getTypeColor(specimen.type)} relative`}>
                       <div className="flex justify-between items-center">
                         <h3 className="text-sm font-medium text-gray-900">{specimen.type}</h3>
@@ -822,7 +785,6 @@ export default function SpecimenSearch() {
                       </div>
                     </div>
                     
-                    {/* Card Body */}
                     <div className="p-4">
                       <div className="flex justify-between text-xs mb-3">
                         <span className="text-gray-600">{specimen.biobank}</span>
@@ -877,7 +839,6 @@ export default function SpecimenSearch() {
               </div>
             </div>
             
-            {/* Pagination */}
             {pagination.totalPages > 1 && (
               <div className="p-4 border-t border-gray-200 flex items-center justify-between">
                 <div className="text-sm text-gray-500">
@@ -898,10 +859,8 @@ export default function SpecimenSearch() {
                     Previous
                   </button>
                   
-                  {/* Page numbers */}
                   <div className="flex space-x-1">
                     {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                      // Logic for showing pages around current page
                       let pageNum = i + 1;
                       if (pagination.totalPages > 5) {
                         if (pagination.currentPage <= 3) {
@@ -975,7 +934,6 @@ export default function SpecimenSearch() {
         )}
       </div>
 
-      {/* Selected specimens panel */}
       {selectedSpecimens.length > 0 && (
         <div className="fixed bottom-4 right-4 z-10">
           <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-200">
@@ -1001,7 +959,6 @@ export default function SpecimenSearch() {
         </div>
       )}
       
-      {/* Inquiry Form Modal */}
       {showInquiryPanel && (
         <div className="fixed inset-0 overflow-y-auto z-20">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">

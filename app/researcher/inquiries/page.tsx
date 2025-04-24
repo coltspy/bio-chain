@@ -1,6 +1,4 @@
-// app/researcher/inquiries/page.tsx
 export default function ResearcherInquiries() {
-    // Mock data
     const inquiryItems = [
       {
         id: 'SP12345',
@@ -53,7 +51,6 @@ export default function ResearcherInquiries() {
           </div>
         </div>
   
-        {/* Inquiry Summary */}
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Inquiry Summary</h2>
@@ -78,7 +75,6 @@ export default function ResearcherInquiries() {
           </div>
         </div>
   
-        {/* Inquiry Items Table */}
         <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 className="text-lg font-medium text-gray-900">Samples in Inquiry</h3>
@@ -120,7 +116,6 @@ export default function ResearcherInquiries() {
           </div>
         </div>
   
-        {/* Request Form */}
         <div className="mt-6 bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">Request Details</h3>

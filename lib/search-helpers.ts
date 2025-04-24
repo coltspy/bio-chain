@@ -1,7 +1,8 @@
-// lib/search-helpers.ts
-// Helper functions for search functionality
-
-// Define filter state type for proper TypeScript typing
+  // This file contains helper functions for search functionality in a web application.
+  
+  /**
+   * Filter state type definition
+   */
 export type FilterState = {
     sampleTypes: string[];
     ageRanges: string[];
@@ -13,9 +14,7 @@ export type FilterState = {
     availability: boolean | null;
   };
   
-  /**
-   * Get background color based on specimen type
-   */
+
   export const getTypeColor = (type: string): string => {
     if (type.includes('Tumor')) return 'bg-red-100';
     if (type.includes('Normal')) return 'bg-green-100';
@@ -96,9 +95,7 @@ export type FilterState = {
     return filters;
   };
   
-  /**
-   * Update URL search params with current filters
-   */
+ 
   export const updateURLWithFilters = (
     searchParams: URLSearchParams,
     filters: FilterState,
