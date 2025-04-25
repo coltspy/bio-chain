@@ -70,7 +70,6 @@ export default function ResearcherSettings() {
         </p>
       </div>
       
-      {/* Settings Tabs */}
       <div className="bg-white rounded-lg shadow mb-6 overflow-hidden">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
@@ -96,7 +95,6 @@ export default function ResearcherSettings() {
         </div>
         
         <div className="p-6">
-          {/* Profile Settings */}
           {activeTab === 'profile' && (
             <div>
               <h2 className="text-lg font-medium text-gray-900 mb-4">Researcher Profile</h2>
@@ -231,7 +229,6 @@ export default function ResearcherSettings() {
             </div>
           )}
           
-          {/* Notification Settings */}
           {activeTab === 'notifications' && (
             <div>
               <h2 className="text-lg font-medium text-gray-900 mb-4">Notification Preferences</h2>
@@ -327,7 +324,6 @@ export default function ResearcherSettings() {
             </div>
           )}
           
-          {/* Privacy Settings */}
           {activeTab === 'privacy' && (
             <div>
               <h2 className="text-lg font-medium text-gray-900 mb-4">Privacy Settings</h2>
@@ -423,7 +419,6 @@ export default function ResearcherSettings() {
             </div>
           )}
           
-          {/* Security Settings */}
           {activeTab === 'security' && (
             <div>
               <h2 className="text-lg font-medium text-gray-900 mb-4">Security Settings</h2>

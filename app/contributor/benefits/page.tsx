@@ -1,6 +1,4 @@
-// app/contributor/benefits/page.tsx
 export default function ContributorBenefits() {
-    // Mock data
     const benefitHistory = [
       {
         id: 'PMT123',
